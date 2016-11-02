@@ -3,5 +3,5 @@ app/design/frontend/base/default/layout/kiyohcustomerreview.xml   app/design/fro
 app/design/frontend/base/default/template/kiyohcustomerreview     app/design/frontend/base/default/template/kiyohcustomerreview
 app/etc/modules/Kiyoh_Customerreview.xml                          app/etc/modules/Kiyoh_Customerreview.xml
 app/locale/en_US/Kiyoh_Customerreview.csv                         app/locale/en_US/Kiyoh_Customerreview.csv
-skin/frontend/base/default/css/kiyohrating.css                     skin/frontend/base/default/css/kiyohrating.css
-skin/frontend/base/default/images/rating-price.png                skin/frontend/base/default/images/rating-price.png
+skin/frontend/base/default/css/kiyohrating.css                    skin/frontend/base/default/css/kiyohrating.css
+skin/frontend/base/default/images/rating-sprite.png               skin/frontend/base/default/images/rating-sprite.png

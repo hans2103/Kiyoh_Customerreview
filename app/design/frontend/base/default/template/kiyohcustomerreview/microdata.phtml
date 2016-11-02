@@ -1,0 +1,30 @@
+<?php
+if($this->getCorrectData()):
+    $rating_percentage = $this->getRatingPercentage();
+    $maxrating = $this->getMaxrating();
+    $url = $this->getMicrodataUrl();
+    $rating = $this->getRating();
+    $reviews = $this->getReviews();
+    $display= '';
+    if(!$this->getShowRating()){
+        $display = 'display:none;';
+    }
+    ?>
+
+    <div class="kiyoh-shop-snippets" style="<?php echo $display;?>">
+        <div class="rating-box">
+            <div class="rating" style="width:<?php echo $rating_percentage;?>%"></div>
+        </div>
+        <div class="kiyoh-schema" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+            <div itemprop="aggregateRating" itemscope="itemscope" itemtype="http://schema.org/AggregateRating">
+                <meta itemprop="bestRating" content="<?php echo $maxrating;?>">
+                <p>
+                    <a href="<?php echo $url;?>" target="_blank" class="kiyoh-link">
+                        <?php echo $this->__('Rating')?> <span itemprop="ratingValue"><?php echo $rating;?></span> <?php echo $this->__('out of %s, based on',$maxrating)?> <span itemprop="ratingCount"><?php echo $reviews;?></span> <?php echo $this->__('customer reviews');?>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+<?php endif;
+

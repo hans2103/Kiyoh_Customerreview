@@ -1,0 +1,14 @@
+{
+  "name": "kiyoh/customerreview",
+  "type": "magento-module",
+  "homepage": "https://github.com/hans2103/Kiyoh_Customerreview",
+  "description": "Kiyoh reviews module voor Magento 1x",
+  "authors": [
+    {
+      "name": "Kiyoh"
+    }
+  ],
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }
+}

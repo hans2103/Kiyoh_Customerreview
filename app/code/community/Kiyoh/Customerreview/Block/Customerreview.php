@@ -2,18 +2,25 @@
 
 class Kiyoh_Customerreview_Block_Customerreview extends Mage_Core_Block_Template
 {
+    protected $mcrdata;
+
     public function _prepareLayout()
     {
+
         $this->setMicrodata(Mage::registry('kiyoh_customerreview_microdata'));
-        if(!$this->getMicrodata()){
+        $this->mcrdata = $this->getMicrodata();
+        if(!$this->mcrdata){
             $cache = Mage::app()->getCache();
             $this->setMicrodata(unserialize($cache->load('kiyoh_customerreview_microdata')));
-            if(!$this->getMicrodata()){
+            if(!$this->mcrdata){
                 $this->setMicrodata($this->receiveData());
-                $cache->save(serialize($this->getMicrodata()),'kiyoh_customerreview_microdata',array(),3600);
+                $cache->save(serialize($this->mcrdata),'kiyoh_customerreview_microdata',array(),3600);
             }
         }
-        if(isset($this->getMicrodata()['company']['total_score'])){
+
+        $this->mcrdata = $this->getMicrodata();
+
+        if(isset($this->mcrdata['company']['total_score'])){
             $this->setCorrectData(1);
         }
         return parent::_prepareLayout();
@@ -46,11 +53,13 @@ class Kiyoh_Customerreview_Block_Customerreview extends Mage_Core_Block_Template
         if ($doc) {
             $data = Mage::helper('core/data')->jsonDecode(Mage::helper('core/data')->jsonEncode($doc));
         }
+
         return $data;
     }
     public function getRatingPercentage(){
-        if(isset($this->getMicrodata()['company']['total_score'])){
-            return $this->getMicrodata()['company']['total_score']*10;
+
+        if(isset($this->mcrdata['company']['total_score'])){
+            return $this->mcrdata['company']['total_score']*10;
         }
         return 100;
     }
@@ -58,20 +67,20 @@ class Kiyoh_Customerreview_Block_Customerreview extends Mage_Core_Block_Template
         return 10;
     }
     public function getMicrodataUrl(){
-        if(isset($this->getMicrodata()['company']['url'])){
-            return $this->getMicrodata()['company']['url'];
+        if(isset($this->mcrdata['company']['url'])){
+            return $this->mcrdata['company']['url'];
         }
         return '#';
     }
     public function getRating(){
-        if(isset($this->getMicrodata()['company']['total_score'])){
-            return $this->getMicrodata()['company']['total_score'];
+        if(isset($this->mcrdata['company']['total_score'])){
+            return $this->mcrdata['company']['total_score'];
         }
         return '10';
     }
     public function getReviews(){
-        if(isset($this->getMicrodata()['company']['total_reviews'])){
-            return $this->getMicrodata()['company']['total_reviews'];
+        if(isset($this->mcrdata['company']['total_reviews'])){
+            return $this->mcrdata['company']['total_reviews'];
         }
         return '0';
     }

@@ -6,23 +6,18 @@ class Kiyoh_Customerreview_Block_Customerreview extends Mage_Core_Block_Template
 
     public function _prepareLayout()
     {
+        $cache = Mage::app()->getCache();
+        $this->mcrdata = unserialize($cache->load('kiyoh_customerreview_microdata'));
 
-        $this->setMicrodata(Mage::registry('kiyoh_customerreview_microdata'));
-        $this->mcrdata = $this->getMicrodata();
         if(!$this->mcrdata){
-            $cache = Mage::app()->getCache();
-            $this->setMicrodata(unserialize($cache->load('kiyoh_customerreview_microdata')));
-            if(!$this->mcrdata){
-                $this->setMicrodata($this->receiveData());
-                $cache->save(serialize($this->mcrdata),'kiyoh_customerreview_microdata',array(),3600);
-            }
+            $this->mcrdata = $this->receiveData();
         }
-
-        $this->mcrdata = $this->getMicrodata();
 
         if(isset($this->mcrdata['company']['total_score'])){
+            $cache->save(serialize($this->mcrdata),'kiyoh_customerreview_microdata',array(),3600);
             $this->setCorrectData(1);
         }
+
         return parent::_prepareLayout();
     }
 
@@ -36,6 +31,7 @@ class Kiyoh_Customerreview_Block_Customerreview extends Mage_Core_Block_Template
     }
     public function receiveData()
     {
+        libxml_use_internal_errors(true);
         $kiyoh_connector = Mage::getStoreConfig('customconfig/review_group/custom_connector');
         $company_id = Mage::getStoreConfig('customconfig/review_group/company_id');
         $kiyoh_server = Mage::getStoreConfig('customconfig/review_group/custom_server');
@@ -50,12 +46,28 @@ class Kiyoh_Customerreview_Block_Customerreview extends Mage_Core_Block_Template
         curl_close($ch);
         $doc = simplexml_load_string($output);
         $data = array();
+
         if ($doc) {
             $data = Mage::helper('core/data')->jsonDecode(Mage::helper('core/data')->jsonEncode($doc));
+
+            if (isset($data['error']))
+            {
+                $this->logErrors($data['error']);
+            }
+
+        } else {
+            $this->logErrors(libxml_get_errors(), null, 'kiyoh.log');
         }
 
         return $data;
     }
+
+    public function logErrors($info) {
+        if(Mage::getStoreConfig('customconfig/review_group/debug_enable')){
+            Mage::log($info, null, 'kiyoh.log');
+        }
+    }
+
     public function getRatingPercentage(){
 
         if(isset($this->mcrdata['company']['total_score'])){

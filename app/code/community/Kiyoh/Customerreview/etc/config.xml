@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Kiyoh_Customerreview>
-            <version>2.1.0.11</version>
+            <version>2.1.5</version>
         </Kiyoh_Customerreview>
     </modules>
     <frontend>
@@ -107,6 +107,9 @@
                 <custom_server>kiyoh.nl</custom_server>
                 <debug_enable>1</debug_enable>
                 <show_rating>0</show_rating>
+                <network>kiyoh</network>
+                <custom_delay_1>1</custom_delay_1>
+                <language_1>nl</language_1>
             </review_group>
         </customconfig>
     </default>

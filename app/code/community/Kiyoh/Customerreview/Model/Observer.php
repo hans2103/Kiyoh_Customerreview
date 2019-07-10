@@ -43,6 +43,7 @@ class Kiyoh_Customerreview_Model_Observer
         }
     }
     protected function sendRequest($order){
+        /** @var Mage_Sales_Model_Order $order */
         $storeId = $order->getStoreId();
         $groups_str = Mage::getStoreConfig('customconfig/review_group/exclude_customer_groups',$storeId);
         $exclude_customer_groups = array();
@@ -53,13 +54,44 @@ class Kiyoh_Customerreview_Model_Observer
             return;
         }
         $email = $order->getCustomerEmail();
+        $network = Mage::getStoreConfig('customconfig/review_group/network',$storeId);
         $kiyoh_server = Mage::getStoreConfig('customconfig/review_group/custom_server',$storeId);
         $kiyoh_user = Mage::getStoreConfig('customconfig/review_group/custom_user',$storeId);
         $kiyoh_connector = Mage::getStoreConfig('customconfig/review_group/custom_connector',$storeId);
         $kiyoh_action = Mage::getStoreConfig('customconfig/review_group/custom_action',$storeId);
         $kiyoh_delay = Mage::getStoreConfig('customconfig/review_group/custom_delay',$storeId);
         $kiyoh_lang = Mage::getStoreConfig('customconfig/review_group/language',$storeId);
-        $url = 'https://www.'.$kiyoh_server.'/set.php?user='.$kiyoh_user.'&connector='.$kiyoh_connector.'&action='.$kiyoh_action.'&targetMail='.$email.'&delay='.$kiyoh_delay.'&language='.$kiyoh_lang;
+        if ($network!='klantenvertellen'){
+            $url = 'https://www.'.$kiyoh_server.'/set.php?user='.$kiyoh_user.'&connector='.$kiyoh_connector.'&action='.$kiyoh_action.'&targetMail='.$email.'&delay='.$kiyoh_delay.'&language='.$kiyoh_lang;
+        } else {
+            $invite_email = $email;
+            $first_name = $order->getCustomerFirstname();
+            $last_name = $order->getCustomerLastname();
+            if (!$first_name){
+                $first_name = $order->getShippingAddress()->getFirstname();
+            }
+            if (!$last_name){
+                $last_name = $order->getShippingAddress()->getLastname();
+            }
+            $hash = Mage::getStoreConfig('customconfig/review_group/hash',$storeId);
+            $location_id = Mage::getStoreConfig('customconfig/review_group/location_id',$storeId);
+            $custom_delay_1 = Mage::getStoreConfig('customconfig/review_group/custom_delay_1',$storeId);
+            $language_1 = Mage::getStoreConfig('customconfig/review_group/language_1',$storeId);
+            $custom_servernew = Mage::getStoreConfig('customconfig/review_group/custom_servernew',$storeId);
+
+            $server = 'klantenvertellen.nl';
+            if($custom_servernew=='newkiyoh.com'){
+                $server = 'kiyoh.com';
+            }
+            $url = "https://{$server}/v1/invite/external?" .
+                "hash={$hash}" .
+                "&location_id={$location_id}" .
+                "&invite_email={$invite_email}" .
+                "&delay={$custom_delay_1}" .
+                "&first_name={$first_name}" .
+                "&last_name={$last_name}" .
+                "&language={$language_1}";
+        }
 
         try{
             // create a new cURL resource

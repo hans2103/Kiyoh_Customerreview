@@ -17,7 +17,7 @@
             <groups>
                 <review_group translate="label">
                     <label>Customers</label>
-                    <comment>Version 2.1.0.10</comment>
+                    <comment>Version 2.1.5</comment>
                     <sort_order>10</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -35,19 +35,53 @@
 							<comment>Recommended Value is Yes. On setting it to NO, module ll stop sending email invites to customers.</comment>
                         </custom_enable>
 
+                        <network translate="label">
+                            <label>Select Network</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>customerreview_adminhtml/system_config_source_network</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </network>
+                        <custom_server translate="label tooltip comment">
+                            <label>Select Server</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>customerreview_adminhtml/system_config_source_reviewserver</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                            <depends><network>kiyoh</network></depends>
+                        </custom_server>
+
+                        <custom_servernew translate="label tooltip comment">
+                            <label>Select Server</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>customerreview_adminhtml/system_config_source_reviewservernew</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment></comment>
+                            <depends><network>klantenvertellen</network></depends>
+                        </custom_servernew>
+
                         <custom_connector translate="label tooltip comment">
                             <label>Enter Connector</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
+                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
        <comment>Enter here the Kiyoh Connector Code from your Kiyoh Account.</comment>
+                            <depends><network>kiyoh</network></depends>
                         </custom_connector>
                         <custom_action translate="label tooltip comment">
 
                             <frontend_type>hidden</frontend_type>
-							<sort_order>2</sort_order>
+							<sort_order>20</sort_order>
                             <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -56,26 +90,28 @@
 						 <custom_user translate="label tooltip comment">
                             <label>Company Email</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>3</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
        <comment>Enter here your "company email address" as registered in your KiyOh account. Not the "user email address"! </comment>
+                             <depends><network>kiyoh</network></depends>
                         </custom_user>
 						<custom_delay translate="label tooltip comment">
                             <label>Enter delay</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>4</sort_order>
+                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
        <comment>Enter here the delay(number of days) after which you would like to send review invite email to your customer. This delay applies after customer event(Shipping/Purchase - to be selected at next option). You may enter 0 to send review invite email immediately after customer event(Shipping/Purchase).</comment>
+                            <depends><network>kiyoh</network></depends>
                         </custom_delay>
 						<custom_event translate="label tooltip comment">
                             <label>Select Event</label>
                             <frontend_type>select</frontend_type>
                             <source_model>customerreview_adminhtml/system_config_source_reviewevents</source_model>
-                            <sort_order>5</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -85,38 +121,32 @@
                             <label>Order Status</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>customerreview_adminhtml/system_config_source_orderstatus</source_model>
-                            <sort_order>6</sort_order>
+                            <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends><custom_event>Orderstatus</custom_event></depends>
                        </custom_event_order_status>
-                        <custom_server translate="label tooltip comment">
-                            <label>Select Server</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>customerreview_adminhtml/system_config_source_reviewserver</source_model>
-                            <sort_order>7</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <comment></comment>
-                        </custom_server>
+
                         <language>
                             <label>Language email template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>customerreview_adminhtml/system_config_source_language</source_model>
-                            <sort_order>8</sort_order>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                            <depends><custom_server>kiyoh.com</custom_server></depends>
+                            <depends>
+                                <custom_server>kiyoh.com</custom_server>
+                                <network>kiyoh</network>
+                            </depends>
                         </language>
 
                         <exclude_customer_groups>
                             <label>Exclude customer groups</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
-                            <sort_order>10</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -125,7 +155,7 @@
                         <enable_microdata  translate="label">
                             <label>Enable Microdata functionality</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>11</sort_order>
+                            <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -134,7 +164,7 @@
                         <show_rating  translate="label">
                             <label>Show rating functionality</label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>12</sort_order>
+                            <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -145,23 +175,69 @@
                         <company_id>
                             <label>Company Id</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>13</sort_order>
+                            <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends><enable_microdata>1</enable_microdata></depends>
                             <frontend_class>required-entry</frontend_class>
+                            <depends><network>kiyoh</network></depends>
                         </company_id>
                         <debug_enable  translate="label">
                             <label>Debug: </label>
                             <frontend_type>select</frontend_type>
-                            <sort_order>100</sort_order>
+                            <sort_order>1000</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <comment>Debug file: var/log/kiyoh.log</comment>
                         </debug_enable>
+
+
+
+                        <!--klantenvertellen-->
+                        <hash translate="label comment">
+                            <label>Hash</label>
+                            <depends><network>klantenvertellen</network></depends>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </hash>
+
+                        <location_id translate="label comment">
+                            <label>Location ID</label>
+                            <comment>Enter here the Location ID from your Account.</comment>
+                            <depends><network>klantenvertellen</network></depends>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </location_id>
+
+                        <custom_delay_1 translate="label comment" >
+                            <label>Enter delay</label>
+                            <comment>Enter here the delay(number of days) after which you would like to send review invite email
+                                to your customer. This delay applies after customer event(Shipping/Purchase - to be selected at
+                                next option). You may enter 0 to send review invite email immediately after customer event(Shipping/Purchase).
+                            </comment>
+                            <depends><network>klantenvertellen</network></depends>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-digits validate-digits-range digits-range-0-365</validate>
+                        </custom_delay_1>
+
+                        <language_1 translate="label comment">
+                            <label>Language</label>
+                            <depends><network>klantenvertellen</network></depends>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </language_1>
                     </fields>
                 </review_group>
             </groups>
